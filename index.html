@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIP-KTM | Sistem Informasi Pendataan Pengajuan KTM</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+  <!-- Header / Navbar -->
+  <nav class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md font-bold text-lg">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <div>
+            <h1 class="font-extrabold text-lg leading-tight tracking-wide">SIP-KTM</h1>
+            <p class="text-xs text-indigo-300">Pendataan Pengajuan Kartu Tanda Mahasiswa</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs bg-indigo-800 text-indigo-200 py-1 px-3 rounded-full border border-indigo-700 font-semibold hidden sm:inline-block">
+            UTS Rekayasa Perangkat Lunak
+          </span>
+          <span class="text-xs bg-emerald-500/20 text-emerald-300 py-1 px-3 rounded-full border border-emerald-500/30 font-bold">
+            Live Vercel
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Banner Hero Info Mahasiswa -->
+  <header class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-blue-900 text-white py-10 px-4">
+    <div class="max-w-4xl mx-auto text-center space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs text-indigo-200 border border-white/15">
+        <i class="fa-solid fa-graduation-cap"></i> Program Studi D3 Teknik Komputer - Kelas TK24A1
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Portal Pelayanan Pengajuan & Cetak Ulang KTM</h2>
+      <p class="text-indigo-200 text-sm max-w-2xl mx-auto">
+        Mempermudah mahasiswa dalam mengajukan kartu tanda mahasiswa baru, rusak, atau hilang secara transparan, akurat, dan terdata di cloud.
+      </p>
+      <div class="pt-2 text-xs text-indigo-300 flex justify-center gap-4">
+        <span><strong class="text-white">Pengembang:</strong> Yusuf Rizal Indrianto</span>
+        <span>•</span>
+        <span><strong class="text-white">NIM:</strong> 240104013</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+
+    <!-- Nav Tab Fitur -->
+    <div class="flex border-b border-slate-200 space-x-6 text-sm font-semibold">
+      <button id="tabFormBtn" onclick="switchTab('form')" class="pb-3 border-b-2 border-indigo-600 text-indigo-600 flex items-center gap-2">
+        <i class="fa-solid fa-pen-to-square"></i> Formulir Pengajuan Baru
+      </button>
+      <button id="tabTrackBtn" onclick="switchTab('track')" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2">
+        <i class="fa-solid fa-magnifying-glass"></i> Cek & Lacak Status (NIM)
+      </button>
+      <button id="tabListBtn" onclick="switchTab('list')" class="pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2">
+        <i class="fa-solid fa-table-list"></i> Antrean & Rekapitulasi BAAK
+      </button>
+    </div>
+
+    <!-- SECTION 1: Form Pengajuan -->
+    <section id="sectionForm" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+      <div class="mb-6">
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-file-signature text-indigo-600"></i> Formulir Pengajuan KTM Mahasiswa
+        </h3>
+        <p class="text-xs text-slate-500 mt-1">Lengkapi data berikut. Sistem akan menghitung estimasi biaya administrasi secara otomatis.</p>
+      </div>
+
+      <form id="formKtm" onsubmit="handlePengajuan(event)" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nomor Induk Mahasiswa (NIM) *</label>
+            <input type="text" id="nim" required placeholder="Contoh: 240104013" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Lengkap Mahasiswa *</label>
+            <input type="text" id="nama" required placeholder="Masukkan nama lengkap" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Program Studi *</label>
+            <input type="text" id="prodi" required value="D3 Teknik Komputer" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Alamat Email *</label>
+            <input type="email" id="email" required placeholder="email@mhs.udb.ac.id" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">No. Handphone / WhatsApp *</label>
+            <input type="tel" id="no_hp" required placeholder="08xxxxxxxxxx" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kategori Pengajuan *</label>
+            <select id="jenis" onchange="updateBiayaKalkulasi()" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white">
+              <option value="baru">Penerbitan Baru (Mahasiswa Baru)</option>
+              <option value="rusak">Penggantian karena Rusak</option>
+              <option value="hilang">Penggantian karena Hilang</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Estimasi Biaya Administrasi (Sistem Logic)</label>
+            <div id="boxBiaya" class="px-3.5 py-2.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold text-sm flex items-center justify-between">
+              <span id="labelBiaya">Rp 0 (Gratis)</span>
+              <span id="badgeSyarat" class="text-xs font-normal text-emerald-600">Penerbitan Perdana</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Alasan Pengajuan / Keterangan Tambahan</label>
+          <textarea id="alasan" rows="2" placeholder="Tuliskan keterangan permohonan atau kronologi jika KTM hilang/rusak..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+        </div>
+
+        <button type="submit" id="btnSubmit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i> Kirim Permohonan Pengajuan KTM
+        </button>
+      </form>
+
+      <!-- Hasil Response Tiket -->
+      <div id="hasilTiket" class="hidden mt-6 p-5 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-900 space-y-3">
+        <div class="flex items-center gap-2 text-indigo-700 font-bold text-base">
+          <i class="fa-solid fa-circle-check text-emerald-600 text-xl"></i> Pengajuan Berhasil Diterbitkan!
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div class="bg-white p-3 rounded-xl border border-indigo-100">
+            <span class="text-slate-400 block">Nomor Tiket</span>
+            <strong id="resTiket" class="text-indigo-600 text-sm font-black">-</strong>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-indigo-100">
+            <span class="text-slate-400 block">Mahasiswa</span>
+            <strong id="resNama" class="text-slate-800 font-bold">-</strong>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-indigo-100">
+            <span class="text-slate-400 block">Biaya Admin</span>
+            <strong id="resBiaya" class="text-emerald-600 font-bold">-</strong>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-indigo-100">
+            <span class="text-slate-400 block">Status Pengajuan</span>
+            <span id="resStatus" class="inline-block mt-0.5 px-2 py-0.5 bg-amber-100 text-amber-800 font-bold rounded text-[11px]">-</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Lacak Status -->
+    <section id="sectionTrack" class="hidden bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+      <div class="mb-6">
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-magnifying-glass text-indigo-600"></i> Pelacakan Status Pengajuan KTM
+        </h3>
+        <p class="text-xs text-slate-500 mt-1">Masukkan Nomor Induk Mahasiswa (NIM) atau Nomor Tiket untuk melihat progres verifikasi dan pencetakan kartu.</p>
+      </div>
+
+      <div class="flex gap-2 max-w-lg mb-6">
+        <input type="text" id="trackInput" placeholder="Masukkan NIM (misal: 240104013)" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        <button onclick="lacakStatus()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-search"></i> Lacak
+        </button>
+      </div>
+
+      <div id="trackResult" class="space-y-4">
+        <div class="text-center py-8 text-slate-400 text-xs">
+          Silakan masukkan NIM Anda lalu tekan tombol Lacak.
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Daftar Antrean / Rekap BAAK -->
+    <section id="sectionList" class="hidden bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-indigo-600"></i> Antrean & Rekapitulasi Pengajuan KTM (BAAK)
+          </h3>
+          <p class="text-xs text-slate-500 mt-1">Daftar seluruh data permohonan yang tercatat di database sistem.</p>
+        </div>
+        <button onclick="loadDataList()" class="text-xs px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors flex items-center gap-1">
+          <i class="fa-solid fa-rotate-right"></i> Muat Ulang Data
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-600 border-collapse">
+          <thead>
+            <tr class="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
+              <th class="p-3">No. Tiket</th>
+              <th class="p-3">NIM & Mahasiswa</th>
+              <th class="p-3">Kategori</th>
+              <th class="p-3">Biaya</th>
+              <th class="p-3">Status</th>
+              <th class="p-3">Tgl Pengajuan</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-slate-100 font-medium">
+            <tr>
+              <td colspan="6" class="p-6 text-center text-slate-400">Memuat data...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-4 space-y-1">
+      <p><strong>SIP-KTM</strong> — Sistem Informasi Pendataan Pengajuan Kartu Tanda Mahasiswa Berbasis Web.</p>
+      <p>Tugas Ujian Tengah Semester (UTS) Mata Kuliah Rekayasa Perangkat Lunak | D3 Teknik Komputer 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    // Tab Switching
+    function switchTab(tab) {
+      const tabs = ['form', 'track', 'list'];
+      tabs.forEach(t => {
+        document.getElementById('section' + capitalize(t)).classList.add('hidden');
+        document.getElementById('tab' + capitalize(t) + 'Btn').className = "pb-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2";
+      });
+
+      document.getElementById('section' + capitalize(tab)).classList.remove('hidden');
+      document.getElementById('tab' + capitalize(tab) + 'Btn').className = "pb-3 border-b-2 border-indigo-600 text-indigo-600 flex items-center gap-2";
+
+      if (tab === 'list') {
+        loadDataList();
+      }
+    }
+
+    function capitalize(s) {
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    // Kalkulasi Biaya Real-time (Logika Bisnis)
+    function updateBiayaKalkulasi() {
+      const jenis = document.getElementById('jenis').value;
+      const label = document.getElementById('labelBiaya');
+      const badge = document.getElementById('badgeSyarat');
+
+      if (jenis === 'hilang') {
+        label.innerText = 'Rp 50.000';
+        badge.innerText = 'Wajib Surat Kehilangan';
+      } else if (jenis === 'rusak') {
+        label.innerText = 'Rp 25.000';
+        badge.innerText = 'Fisik Lama Dikembalikan';
+      } else {
+        label.innerText = 'Rp 0 (Gratis)';
+        badge.innerText = 'Penerbitan Perdana';
+      }
+    }
+
+    // Submit Pengajuan
+    async function handlePengajuan(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan pengajuan...';
+
+      const formData = new FormData();
+      formData.append('nim', document.getElementById('nim').value);
+      formData.append('nama', document.getElementById('nama').value);
+      formData.append('prodi', document.getElementById('prodi').value);
+      formData.append('email', document.getElementById('email').value);
+      formData.append('no_hp', document.getElementById('no_hp').value);
+      formData.append('jenis', document.getElementById('jenis').value);
+      formData.append('alasan', document.getElementById('alasan').value);
+
+      try {
+        const res = await fetch('/api/index.php?action=submit', {
+          method: 'POST',
+          body: formData
+        });
+        const json = await res.json();
+        if (json.success) {
+          const item = json.data;
+          document.getElementById('hasilTiket').classList.remove('hidden');
+          document.getElementById('resTiket').innerText = item.id;
+          document.getElementById('resNama').innerText = item.nama + ' (' + item.nim + ')';
+          document.getElementById('resBiaya').innerText = 'Rp ' + Number(item.biaya).toLocaleString('id-ID');
+          document.getElementById('resStatus').innerText = formatStatus(item.status);
+          document.getElementById('formKtm').reset();
+          updateBiayaKalkulasi();
+        } else {
+          alert(json.message || 'Gagal menyimpan pengajuan');
+        }
+      } catch (err) {
+        alert('Terjadi kesalahan koneksi server');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Kirim Permohonan Pengajuan KTM';
+      }
+    }
+
+    // Lacak Status Mahasiswa
+    async function lacakStatus() {
+      const nim = document.getElementById('trackInput').value.trim();
+      const box = document.getElementById('trackResult');
+      if (!nim) {
+        alert('Masukkan NIM atau Nomor Tiket terlebih dahulu!');
+        return;
+      }
+      box.innerHTML = '<div class="text-center py-6 text-slate-400 text-xs"><i class="fa-solid fa-spinner fa-spin text-indigo-600"></i> Memeriksa data...</div>';
+
+      try {
+        const res = await fetch('/api/index.php?action=tracking&nim=' + encodeURIComponent(nim));
+        const json = await res.json();
+
+        if (json.success && json.data.length > 0) {
+          box.innerHTML = json.data.map(item => `
+            <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-3">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-xs font-mono font-bold text-indigo-600">${item.id}</span>
+                  <h4 class="text-base font-bold text-slate-900">${item.nama} (${item.nim})</h4>
+                  <p class="text-xs text-slate-500">${item.prodi} • Diajukan: ${item.tgl_pengajuan}</p>
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase ${badgeClass(item.status)}">
+                  ${formatStatus(item.status)}
+                </span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-slate-100">
+                <div>Kategori: <strong class="text-slate-800 capitalize">${item.jenis}</strong></div>
+                <div>Biaya Admin: <strong class="text-emerald-700">Rp ${Number(item.biaya).toLocaleString('id-ID')}</strong></div>
+                <div class="col-span-2 text-slate-600 bg-slate-50 p-2 rounded-lg mt-1">Alasan: "${item.alasan || '-'}"</div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          box.innerHTML = `
+            <div class="text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200 p-6">
+              <i class="fa-solid fa-circle-exclamation text-amber-500 text-3xl mb-2"></i>
+              <p class="font-bold text-slate-800 text-sm">Data Pengajuan Tidak Ditemukan</p>
+              <p class="text-xs text-slate-500 mt-1">NIM atau No. Tiket "${nim}" belum pernah terdaftar di sistem.</p>
+            </div>
+          `;
+        }
+      } catch (err) {
+        box.innerHTML = '<div class="text-red-500 text-xs text-center py-4">Gagal memuat status pengajuan.</div>';
+      }
+    }
+
+    // Muat Seluruh List
+    async function loadDataList() {
+      const tbody = document.getElementById('tableBody');
+      try {
+        const res = await fetch('/api/index.php?action=list');
+        const data = await res.json();
+        if (data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-400">Belum ada data pengajuan.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.map(item => `
+          <tr class="hover:bg-slate-50 transition-colors">
+            <td class="p-3 font-mono font-bold text-indigo-600">${item.id}</td>
+            <td class="p-3">
+              <div class="font-bold text-slate-800">${item.nama}</div>
+              <div class="text-slate-400 text-[11px]">${item.nim} • ${item.prodi}</div>
+            </td>
+            <td class="p-3 capitalize">${item.jenis}</td>
+            <td class="p-3 text-emerald-700 font-bold">Rp ${Number(item.biaya).toLocaleString('id-ID')}</td>
+            <td class="p-3">
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase ${badgeClass(item.status)}">
+                ${formatStatus(item.status)}
+              </span>
+            </td>
+            <td class="p-3 text-slate-400 text-[11px]">${item.tgl_pengajuan}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-500">Gagal mengambil data antrean.</td></tr>';
+      }
+    }
+
+    function formatStatus(status) {
+      const map = {
+        'menunggu_verifikasi': 'Menunggu Verifikasi',
+        'disetujui': 'Disetujui BAAK',
+        'proses_cetak': 'Proses Cetak',
+        'siap_diambil': 'Siap Diambil',
+        'selesai': 'Selesai',
+        'ditolak': 'Ditolak'
+      };
+      return map[status] || status;
+    }
+
+    function badgeClass(status) {
+      if (status === 'siap_diambil' || status === 'selesai') return 'bg-emerald-100 text-emerald-800';
+      if (status === 'proses_cetak') return 'bg-blue-100 text-blue-800';
+      if (status === 'ditolak') return 'bg-red-100 text-red-800';
+      return 'bg-amber-100 text-amber-800';
+    }
+  </script>
+</body>
+</html>
