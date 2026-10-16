@@ -81,7 +81,7 @@ if ($action === 'submit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // Kalkulasi biaya administrasi (Logika Bisnis)
     switch ($jenis) {
         case 'hilang':
-            $biaya = 50000;
+            $biaya = 60000; // Penyesuaian tarif KTM hilang cabang sim-conflict
             break;
         case 'rusak':
             $biaya = 25000;
