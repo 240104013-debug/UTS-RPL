@@ -81,7 +81,7 @@ if ($action === 'submit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // Kalkulasi biaya administrasi (Logika Bisnis)
     switch ($jenis) {
         case 'hilang':
-            $biaya = 50000; // Biaya penggantian KTM hilang
+            $biaya = 50000; // Biaya penggantian KTM hilang (Resmi disepakati Rp 50.000)
             break;
         case 'rusak':
             $biaya = 25000;
